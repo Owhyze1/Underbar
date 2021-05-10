@@ -135,6 +135,26 @@
 
   // Produce a duplicate-free version of the array.
   _.uniq = function(array, isSorted, iterator) {
+    var set = new Set();
+    var transformedSet = new Set();
+    for (var i = 0; i < array.length; i++) {
+      if (iterator !== undefined) {
+        var iteratorResult = iterator(array[i]);
+        if (transformedSet.has(iteratorResult)) {
+          continue;
+        } else {
+          transformedSet.add(iteratorResult);
+          set.add(array[i]);
+        }
+      } else {
+        set.add(array[i]);
+      }
+    }
+    var uniqueValues = [];
+    set.forEach(function(value) {
+      uniqueValues.push(value);
+    });
+    return uniqueValues;
   };
 
 
