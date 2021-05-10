@@ -122,7 +122,16 @@
   _.reject = function(collection, test) {
     // TIP: see if you can re-use _.filter() here, without simply
     // copying code in and modifying it
+    // var unwantedElements = _.filter(collection, test);
+    var elementsThatFailedTest = [];
+    _.each(collection, function(value, key, collection) {
+      if (test(value) === false) {
+        elementsThatFailedTest.push(value);
+      }
+    });
+    return elementsThatFailedTest;
   };
+
 
   // Produce a duplicate-free version of the array.
   _.uniq = function(array, isSorted, iterator) {
