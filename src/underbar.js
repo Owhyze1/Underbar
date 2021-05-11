@@ -132,7 +132,6 @@
     return elementsThatFailedTest;
   };
 
-
   // Produce a duplicate-free version of the array.
   _.uniq = function(array, isSorted, iterator) {
     var set = new Set();
@@ -156,7 +155,6 @@
     });
     return uniqueValues;
   };
-
 
   // Return the results of applying an iterator to each element.
   _.map = function(collection, iterator) {
@@ -209,6 +207,18 @@
   //   }); // should be 5, regardless of the iterator function passed in
   //          No accumulator is given so the first element is used.
   _.reduce = function(collection, iterator, accumulator) {
+    if (accumulator === undefined) {
+      accumulator = collection[0];
+      collection = collection.slice(1);
+      _.each(collection, function(value, key, collection) {
+        accumulator = iterator(accumulator, value);
+      });
+    } else {
+      _.each(collection, function(value, key, collection) {
+        accumulator = iterator(accumulator, value);
+      });
+    }
+    return accumulator;
   };
 
 
