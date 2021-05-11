@@ -102,7 +102,6 @@
         result = index;
       }
     });
-
     return result;
   };
 
@@ -220,7 +219,6 @@
     }
     return accumulator;
   };
-
 
   // --------------------
   // ! END OF PART ONE !
