@@ -109,7 +109,7 @@
   _.filter = function(collection, test) {
     var elementsThatPassedTest = [];
 
-    _.each(collection, function(value, key, collection) {
+    _.each(collection, function(value, key) {
       if (test(value) === true) {
         elementsThatPassedTest.push(value);
       }
@@ -251,9 +251,22 @@
   // Determine whether all of the elements match a truth test.
   _.every = function(collection, iterator) {
     // TIP: Try re-using reduce() here
-    return _.reduce(collection, function(iterator, item) {
 
-    }, false);
+    // arrays
+    if (Array.isArray(collection)) {
+      if (iterator(collection[0])) {
+        return _.reduce(collection, iterator, false);
+      } else if (collection.length === 0) {
+        return true;
+      } else {
+        return false;
+      }
+
+      // objects
+    } else if (Object.getOwnPropertyNames(collection).length === 0) {
+      return true;
+    } else {
+    }
   };
 
   // Determine whether any of the elements pass a truth test. If no iterator is
