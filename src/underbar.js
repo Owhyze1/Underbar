@@ -259,14 +259,7 @@
 
 
     if (iterator === undefined && arguments.length === 1) {
-      _.each(collection, function(value) {
-        if (allElementsPass === true && value === true) {
-          allElementsPass = true;
-        } else {
-          allElementsPass = false;
-        }
-      });
-      return allElementsPass;
+      iterator = _.identity;
     }
 
     _.each(collection, function(value) {
@@ -279,35 +272,16 @@
       }
     });
     return allElementsPass;
-
-
-
-    /**
-     * ORIGINAL METHOD attempting to use reduce
-     */
-
-    // arrays
-    // if (Array.isArray(collection)) {
-    //   if (iterator(collection[0])) {
-    //     var result = _.reduce(collection, iterator, true);
-    //     return result;
-    //   } else if (collection.length === 0) {
-    //     return true;
-    //   } else {
-    //     return false;
-    //   }
-
-    //   // objects
-    // } else if (Object.getOwnPropertyNames(collection).length === 0) {
-    //   return true;
-    // } else {
-    // }
   };
 
   // Determine whether any of the elements pass a truth test. If no iterator is
   // provided, provide a default one
   _.some = function(collection, iterator) {
     // TIP: There's a very clever way to re-use every() here.
+
+    _.every(collection, function() {
+
+    });
   };
 
 
