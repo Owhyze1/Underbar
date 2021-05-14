@@ -251,22 +251,57 @@
   // Determine whether all of the elements match a truth test.
   _.every = function(collection, iterator) {
     // TIP: Try re-using reduce() here
+    if (collection.length === 0 ) {
+      return true;
+    }
+
+    var allElementsPass = true;
+
+
+    if (iterator === undefined && arguments.length === 1) {
+      _.each(collection, function(value) {
+        if (allElementsPass === true && value === true) {
+          allElementsPass = true;
+        } else {
+          allElementsPass = false;
+        }
+      });
+      return allElementsPass;
+    }
+
+    _.each(collection, function(value) {
+      if (iterator(value) === value && allElementsPass && value === true) {
+        allElementsPass = true;
+      } else if (iterator(value) && allElementsPass ) {
+        allElementsPass = true;
+      } else {
+        allElementsPass = false;
+      }
+    });
+    return allElementsPass;
+
+
+
+    /**
+     * ORIGINAL METHOD attempting to use reduce
+     */
 
     // arrays
-    if (Array.isArray(collection)) {
-      if (iterator(collection[0])) {
-        return _.reduce(collection, iterator, false);
-      } else if (collection.length === 0) {
-        return true;
-      } else {
-        return false;
-      }
+    // if (Array.isArray(collection)) {
+    //   if (iterator(collection[0])) {
+    //     var result = _.reduce(collection, iterator, true);
+    //     return result;
+    //   } else if (collection.length === 0) {
+    //     return true;
+    //   } else {
+    //     return false;
+    //   }
 
-      // objects
-    } else if (Object.getOwnPropertyNames(collection).length === 0) {
-      return true;
-    } else {
-    }
+    //   // objects
+    // } else if (Object.getOwnPropertyNames(collection).length === 0) {
+    //   return true;
+    // } else {
+    // }
   };
 
   // Determine whether any of the elements pass a truth test. If no iterator is
