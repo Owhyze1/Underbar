@@ -210,7 +210,7 @@
       accumulator = collection[0];
       collection = collection.slice(1);
     }
-    _.each(collection, function(value, key) {
+    _.each(collection, function(value) {
       accumulator = iterator(accumulator, value);
     });
 
@@ -246,6 +246,14 @@
       return item === target;
     }, false);
   };
+  // accumulator = false
+  // accumulator = iterator(false, value)
+      // accumulator = function(wasFound, item){
+        // if (wasFound) {
+          // return true;
+        // }
+        // return item === target;
+      // }
 
 
   // Determine whether all of the elements match a truth test.
@@ -254,30 +262,32 @@
     if (collection.length === 0 ) {
       return true;
     }
+    // reduce --> collection, iterator, accumulator
+    // each  --> collection[i], i, collection
+    var accumulator = true;
+    _.reduce(collection, function(value) {
+      accumulator = iterator(value) && accumulator;
+    }, accumulator);
+    // return accumulator;
 
-    var allElementsPass = true;
-
-
-    if (iterator === undefined && arguments.length === 1) {
-      iterator = _.identity;
-    }
-
-    _.each(collection, function(value) {
-      if (iterator(value) === value && allElementsPass && value === true) {
-        allElementsPass = true;
-      } else if (iterator(value) && allElementsPass ) {
-        allElementsPass = true;
-      } else {
-        allElementsPass = false;
-      }
-    });
-    return allElementsPass;
+    // var allElementsPass = true;
+    // if (iterator === undefined && arguments.length === 1) {
+    //   iterator = _.identity;
+    // }
+    // _.each(collection, function(value) {
+    //   if ( !(allElementsPass && iterator(value)) ) {
+    //     allElementsPass = false;
+    //   }
+    // });
+    // return allElementsPass;
   };
 
   // Determine whether any of the elements pass a truth test. If no iterator is
   // provided, provide a default one
   _.some = function(collection, iterator) {
     // TIP: There's a very clever way to re-use every() here.
+
+    var hasOneElementPassed = false;
 
     _.every(collection, function() {
 
