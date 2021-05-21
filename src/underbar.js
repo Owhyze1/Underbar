@@ -246,15 +246,6 @@
       return item === target;
     }, false);
   };
-  // accumulator = false
-  // accumulator = iterator(false, value)
-      // accumulator = function(wasFound, item){
-        // if (wasFound) {
-          // return true;
-        // }
-        // return item === target;
-      // }
-
 
   // Determine whether all of the elements match a truth test.
   _.every = function(collection, iterator) {
@@ -262,24 +253,19 @@
     if (collection.length === 0 ) {
       return true;
     }
-    // reduce --> collection, iterator, accumulator
-    // each  --> collection[i], i, collection
-    var accumulator = true;
-    _.reduce(collection, function(value) {
-      accumulator = iterator(value) && accumulator;
-    }, accumulator);
-    // return accumulator;
-
-    // var allElementsPass = true;
-    // if (iterator === undefined && arguments.length === 1) {
-    //   iterator = _.identity;
-    // }
-    // _.each(collection, function(value) {
-    //   if ( !(allElementsPass && iterator(value)) ) {
-    //     allElementsPass = false;
-    //   }
-    // });
-    // return allElementsPass;
+    if (iterator === undefined && arguments.length === 1) {
+      iterator = _.identity;
+    }
+    // reduce(collection, iterator, accumulator)
+    // each(collection, function(value))
+    // accumulator = iterator(accumulator, value)
+    var result = _.reduce(collection, function(accumulator, value) {
+      if (iterator(value) && accumulator) {
+        return true;
+      }
+      return false;
+    }, true);
+    return result;
   };
 
   // Determine whether any of the elements pass a truth test. If no iterator is
@@ -287,11 +273,26 @@
   _.some = function(collection, iterator) {
     // TIP: There's a very clever way to re-use every() here.
 
+    if (collection.length === 0) {
+      return false;
+    }
+    if ( iterator === undefined && arguments.length === 1) {
+      iterator = _.identity;
+    }
+    // // every(collection, iterator)
+    // var result = _.every(collection, function(value) {
+    //   if (iterator(value)) {
+    //     return true;
+    //   }
+    // });
+    // return result;
     var hasOneElementPassed = false;
-
-    _.every(collection, function() {
-
-    });
+    _.each(collection, function(value) {
+      if (iterator(value)) {
+        hasOneElementPassed = true;
+      }
+    })
+    return hasOneElementPassed;
   };
 
 
@@ -314,6 +315,17 @@
   //     bla: "even more stuff"
   //   }); // obj1 now contains key1, key2, key3 and bla
   _.extend = function(obj) {
+    console.log("----------EXTEND FUNCTION--------------");
+    _.each(arguments, function(object) {
+      _.each(object, function(value, key) {
+        if (obj[key] === undefined) {
+          console.log("adding to obj --> " + value);
+          obj[key] = value;
+        }
+      });
+    });
+    console.log(obj);
+    return obj;
   };
 
   // Like extend, but doesn't ever overwrite a key that already
