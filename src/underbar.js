@@ -291,7 +291,7 @@
       if (iterator(value)) {
         hasOneElementPassed = true;
       }
-    })
+    });
     return hasOneElementPassed;
   };
 
@@ -315,16 +315,11 @@
   //     bla: "even more stuff"
   //   }); // obj1 now contains key1, key2, key3 and bla
   _.extend = function(obj) {
-    console.log("----------EXTEND FUNCTION--------------");
     _.each(arguments, function(object) {
       _.each(object, function(value, key) {
-        if (obj[key] === undefined) {
-          console.log("adding to obj --> " + value);
-          obj[key] = value;
-        }
+        obj[key] = value;
       });
     });
-    console.log(obj);
     return obj;
   };
 
