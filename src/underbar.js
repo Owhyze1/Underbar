@@ -377,6 +377,25 @@
   // already computed the result for the given argument and return that value
   // instead if possible.
   _.memoize = function(func) {
+    console.log("-----MEMOIZE-----");
+    var result = {};
+
+    return function() {
+     var arg = [];
+      for (var i = 0; i < arguments.length; i++) {
+        arg.push(arguments[i]);
+      }
+      if (typeof arguments[0] === "object") {
+        arg.push("object");
+      }
+
+      arg = arg.toString();
+
+      if (result[arg] === undefined) {
+        result[arg] = func.apply(this, arguments);
+      }
+      return result[arg];
+    }
   };
 
   // Delays a function for the given number of milliseconds, and then calls
